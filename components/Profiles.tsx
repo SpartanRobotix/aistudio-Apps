@@ -38,7 +38,7 @@ const Profiles: React.FC<ProfilesProps> = ({ group, onProfileSelect, onChatSelec
                         <p className="text-white/80 text-xs sm:text-sm truncate">{member.role}</p>
                     </div>
                 </div>
-                <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-black/50 backdrop-blur-md rounded-xl border-2 border-[var(--accent-color)] flex flex-col justify-center items-center p-2">
+                <div className="absolute w-full h-full backface-hidden rotate-y-180 bg-black/50 rounded-xl border-2 border-[var(--accent-color)] flex flex-col justify-center items-center p-2">
                     <h3 className="text-lg font-bold text-center text-[var(--accent-color)]">{member.name}</h3>
                     <p className="text-center text-sm text-white">{member.role}</p>
                     <p className="text-4xl mt-2">{member.animal}</p>

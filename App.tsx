@@ -65,7 +65,7 @@ const App: React.FC = () => {
       style={backgroundStyle}
     >
       <div 
-        className="min-h-screen w-full bg-black/50 backdrop-blur-sm"
+        className="min-h-screen w-full bg-black/50"
         style={themeStyle}
       >
         <main className="container mx-auto p-4 text-white max-w-4xl">

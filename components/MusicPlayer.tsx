@@ -245,7 +245,7 @@ const MusicPlayer: React.FC<{ group: Group }> = ({ group }) => {
     <div>
         {editingSong && (
             <Modal onClose={() => setEditingSong(null)}>
-            <div className="bg-black/80 backdrop-blur-md border border-white/20 p-6 rounded-lg text-white w-[90vw] max-w-lg">
+            <div className="bg-black/80 border border-white/20 p-6 rounded-lg text-white w-[90vw] max-w-lg">
                 <h3 className="text-xl font-bold mb-4">Edit Lyrics for "{editingSong.title}"</h3>
                 <textarea
                 value={lyricsInput}

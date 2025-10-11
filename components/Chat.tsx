@@ -173,7 +173,7 @@ const Chat: React.FC<ChatProps> = ({ group, initialMember }) => {
             <Icon icon="users" className="w-6 h-6"/>
           </button>
           {/* This dropdown allows switching between the group chat and individual member chats. */}
-          <div className="absolute right-0 top-full mt-2 w-48 bg-black/70 backdrop-blur-xl border border-white/20 rounded-lg shadow-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto z-10">
+          <div className="absolute right-0 top-full mt-2 w-48 bg-black/70 border border-white/20 rounded-lg shadow-lg p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none group-hover:pointer-events-auto z-10">
             <button onClick={() => setChatTarget('group')} className="w-full text-left px-3 py-2 rounded hover:bg-white/10">Group Chat</button>
             {group.members.map(member => (
               <button key={member.id} onClick={() => setChatTarget(member)} className="w-full text-left px-3 py-2 rounded hover:bg-white/10">{member.name}</button>

@@ -12,14 +12,14 @@ interface WallpaperGeneratorProps {
 const allSuggestions = {
   skz: {
     memberPrompts: [
-      { name: "Bang Chan", prompt: "Digital painting fanart of Bang Chan in his studio, bathed in the soft glow of monitor screens, looking focused. A wolf-like moon is visible through a window, symbolizing his protective leader nature." },
-      { name: "Lee Know", prompt: "Anime fanart of Lee Know in a dynamic, powerful dance pose, surrounded by ethereal, cat-like spirits. His expression is sharp and captivating, a mix of elegance and playful mischief." },
-      { name: "Changbin", prompt: "High-energy fanart of Changbin on a dark, grunge-inspired stage, rapping with intense passion. Neon pink and black graffiti art covers the background, reflecting his 'I love dark' but energetic duality." },
-      { name: "Hyunjin", prompt: "Elegant fanart painting of Hyunjin as a tragic prince from a historical drama, a single tear on his cheek, surrounded by wilting roses. The style is dramatic and emotional, capturing his passionate artistic nature." },
-      { name: "Han", prompt: "Cute and chaotic anime fanart of Han surrounded by floating musical notes, lyrics, and cheesecake slices. He's making a witty, animated expression, capturing his versatile and energetic spirit." },
-      { name: "Felix", prompt: "Sunshine-filled fanart of Felix with his iconic freckles sparkling like constellations. He's surrounded by warm, glowing light, while deep bass sound waves subtly emanate from him, representing his voice." },
-      { name: "Seungmin", prompt: "Soft, gentle fanart of Seungmin singing into a vintage microphone, with sound waves turning into flowers. He's in a cozy, sunlit room with a baseball and a DAY6 album subtly placed in the background." },
-      { name: "I.N", prompt: "Adorable fanart of I.N with a charming smile, wearing a fennec fox-ear headband as a nod to his animal. He's in a whimsical, colorful setting, looking sweet but with a hint of playful 'maknae on top' mischief." },
+      { name: "Bang Chan", prompt: "Hyper-realistic 3D render of a producer resembling Bang Chan in a futuristic music studio. Cinematic lighting from holographic interfaces illuminates his focused expression. A subtle wolf emblem glows on his headphones." },
+      { name: "Lee Know", prompt: "Cinematic 3D render of a dancer with sharp features like Lee Know, executing a powerful, graceful move. Ethereal, glowing cat-like apparitions swirl around him in a dark, minimalist space." },
+      { name: "Changbin", prompt: "Dynamic 3D render of a rapper inspired by Changbin, on a gritty, rain-slicked city stage under neon lights. His energy is palpable as he performs, with 'Dwaekki' graffiti art subtly visible in the background." },
+      { name: "Hyunjin", prompt: "An artistic, hyper-realistic 3D portrait of a dramatic prince who looks like Hyunjin, with flowing hair and a tear glistening on his cheek. He's surrounded by impossibly beautiful, glowing digital roses." },
+      { name: "Han", prompt: "Energetic, hyper-realistic 3D render of a creative genius resembling Han, sitting on a floating island made of giant cheesecake slices. Musical notes and witty remarks materialize as glowing text around him." },
+      { name: "Felix", prompt: "A breathtaking, photorealistic 3D scene of a character with Felix's sunshine-like aura and freckles that shimmer like pixie dust. He's surrounded by golden light, with deep bass soundwaves rendered as visible, shimmering particles in the air." },
+      { name: "Seungmin", prompt: "Soft-focus, hyper-realistic 3D render of a vocalist similar to Seungmin in a cozy, sunlit room. He sings into a vintage microphone, and the sound waves transform into delicate, glowing flower petals." },
+      { name: "I.N", prompt: "Charming, hyper-realistic 3D render of the youngest member of a group, inspired by I.N, with a playful smile. He's in a whimsical, dream-like environment with subtle fennec fox motifs and glowing bread floating gently in the background." },
     ],
     eraPrompts: [
       { era: "ODDINARY", prompts: [

@@ -10,7 +10,7 @@ interface GroupSelectorProps {
 
 const GroupSelector: React.FC<GroupSelectorProps> = ({ groups, selectedGroup, onSelect }) => {
   return (
-    <nav className="flex justify-center items-center gap-2 md:gap-4 my-8 p-2 bg-black/30 backdrop-blur-md rounded-full border border-white/20">
+    <nav className="flex justify-center items-center gap-2 md:gap-4 my-8 p-2 bg-black/30 rounded-full border border-white/20">
       {groups.map((group) => {
         const isSelected = selectedGroup?.id === group.id;
         const groupThemeStyle = {

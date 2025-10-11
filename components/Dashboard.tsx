@@ -38,7 +38,7 @@ const Dashboard: React.FC<DashboardProps> = ({ group, currentView, setCurrentVie
   }
 
   return (
-    <div className="bg-black/30 backdrop-blur-lg border border-white/20 rounded-2xl shadow-lg p-4 md:p-6 mt-6">
+    <div className="bg-black/30 border border-white/20 rounded-2xl shadow-lg p-4 md:p-6 mt-6">
       <div className="flex justify-center border-b border-white/20 mb-6 overflow-x-auto pb-2">
         <nav className="flex space-x-1 sm:space-x-2 md:space-x-4 flex-shrink-0">
           {navItems.map((item) => {
