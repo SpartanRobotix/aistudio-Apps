@@ -145,7 +145,10 @@ const MusicPlayer: React.FC<{ group: Group }> = ({ group }) => {
     const filesArray = Array.from(files);
     
     const processResults = await Promise.all(filesArray.map(async (file) => {
-        if (file.type === "audio/mpeg") {
+        // FIX: Add a type guard to ensure 'file' is a File object before processing.
+        // This resolves multiple TypeScript errors where properties like '.type' and '.name'
+        // were being accessed on an 'unknown' type.
+        if (file instanceof File && file.type === "audio/mpeg") {
             const src = await fileToBase64(file);
             const songTitle = file.name.replace(/\.mp3$/i, '').trim();
 

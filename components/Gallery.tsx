@@ -1,8 +1,10 @@
+
 import React, { useState, useRef } from 'react';
 import { Group, GalleryImage } from '../types';
 import { Icon } from './common/Icon';
 import Modal from './common/Modal';
 import { useData } from '../contexts/DataContext';
+import { fileToBase64 } from '../utils/file';
 
 interface GalleryProps {
   group: Group;
@@ -18,31 +20,41 @@ const Gallery: React.FC<GalleryProps> = ({ group }) => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // FIX: Refactored to use async/await and Promise.all for robust, concurrent file processing.
+  // This resolves type errors by explicitly checking if the iterated item is a File object,
+  // preventing access to properties on 'unknown' types and ensuring correct types for APIs like FileReader.
+  // This also fixes a logical bug where the component state would not update if any file failed to load.
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (!files || files.length === 0) return;
 
-    const newImages: GalleryImage[] = [];
     const filesArray = Array.from(files);
 
-    filesArray.forEach(file => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const newImage: GalleryImage = {
-          id: `${Date.now()}-${file.name}`,
-          src: e.target?.result as string,
-          uploadedAt: new Date().toISOString(),
-          groupId: group.id,
-        };
-        newImages.push(newImage);
-
-        // When all files have been read, update the context once
-        if (newImages.length === filesArray.length) {
-          updateGalleryImages([...galleryImages, ...newImages]);
+    const newImagesPromises = filesArray.map(async (file) => {
+      if (file instanceof File) {
+        try {
+          const base64Src = await fileToBase64(file);
+          const newImage: GalleryImage = {
+            id: `${Date.now()}-${file.name}`,
+            src: base64Src,
+            uploadedAt: new Date().toISOString(),
+            groupId: group.id,
+          };
+          return newImage;
+        } catch (error) {
+          console.error(`Error processing file ${file.name}:`, error);
+          return null;
         }
-      };
-      reader.readAsDataURL(file);
+      }
+      return null;
     });
+
+    const results = await Promise.all(newImagesPromises);
+    const newImages = results.filter((img): img is GalleryImage => img !== null);
+
+    if (newImages.length > 0) {
+      updateGalleryImages([...galleryImages, ...newImages]);
+    }
   };
   
   const groupImages = galleryImages

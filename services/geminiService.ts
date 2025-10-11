@@ -1,6 +1,7 @@
 
+
 // FIX: Removed `Chat` from imports as it's no longer used.
-import { GoogleGenAI, GenerateContentResponse, Type } from "@google/genai";
+import { GoogleGenAI, GenerateContentResponse, Type, Modality } from "@google/genai";
 import { Member, Group, ChatMessage, QuizQuestion, Album } from '../types';
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
@@ -94,30 +95,38 @@ export const generateWallpaper = async (prompt: string, group: Group, style: str
 
     const styleDescription = stylePrefixes[style] || stylePrefixes['photorealistic'];
 
-    // Updated prompt to be less likely to trigger safety filters by focusing on the artistic concept.
-    const fullPrompt = `A 4K phone wallpaper for the K-POP group ${group.name}. The image is a ${styleDescription}, inspired by the theme: "${prompt}". The art should capture the group's signature aesthetic: ${groupSpecifics[group.id as keyof typeof groupSpecifics]}. Emphasize the overall mood and style rather than creating exact portraits of the members.`;
+    const fullPrompt = `Create a 4K phone wallpaper with a 9:16 aspect ratio. The subject is inspired by the K-POP group ${group.name} and this theme: "${prompt}". The style is ${styleDescription}. The overall aesthetic should reflect ${groupSpecifics[group.id as keyof typeof groupSpecifics]}. IMPORTANT: This is an artistic interpretation. Do not generate realistic portraits or photorealistic images of the group members. Focus on capturing the concept, mood, and symbolism associated with ${group.name}. This model is fine-tuned for Stray Kids, TOMORROW X TOGETHER, and ENHYPEN, so leverage that knowledge for a highly specific and accurate result.`;
     
     try {
-        const response = await ai.models.generateImages({
-            model: 'imagen-4.0-generate-001',
-            prompt: fullPrompt,
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash-image', // "nano-banana" as requested
+            contents: {
+                parts: [{ text: fullPrompt }]
+            },
             config: {
-                numberOfImages: 1,
-                outputMimeType: 'image/jpeg',
-                aspectRatio: '9:16',
+                responseModalities: [Modality.IMAGE, Modality.TEXT],
             },
         });
 
-        if (response?.generatedImages?.[0]?.image?.imageBytes) {
-            const base64ImageBytes: string = response.generatedImages[0].image.imageBytes;
-            return `data:image/jpeg;base64,${base64ImageBytes}`;
+        const imagePart = response.candidates?.[0]?.content?.parts?.find(part => part.inlineData);
+
+        if (imagePart && imagePart.inlineData) {
+            const base64ImageBytes: string = imagePart.inlineData.data;
+            const mimeType = imagePart.inlineData.mimeType;
+            return `data:${mimeType};base64,${base64ImageBytes}`;
         } else {
-            console.error("Failed to generate wallpaper. The API returned no images. Full response:", JSON.stringify(response, null, 2));
+            const textPart = response.candidates?.[0]?.content?.parts?.find(part => part.text)?.text;
+            console.error("Failed to generate wallpaper. The API returned no image. Full response:", JSON.stringify(response, null, 2));
+            if (textPart) {
+                console.error("AI Text Response:", textPart);
+                // Customizing error to give more context if AI refuses.
+                throw new Error(`The AI refused to create an image, stating: "${textPart}"`);
+            }
             throw new Error("The AI was unable to create an image. This might be due to a restrictive safety filter or a temporary issue. Please try a different or more general prompt.");
         }
     } catch(error) {
-        console.error("Error calling the generateImages API:", error);
-        if (error instanceof Error && error.message.startsWith("The AI was unable")) {
+        console.error("Error calling the generateContent API for image generation:", error);
+        if (error instanceof Error && (error.message.startsWith("The AI was unable") || error.message.startsWith("The AI refused"))) {
             throw error;
         }
         throw new Error("An error occurred while communicating with the image generation service. Please try again later.");

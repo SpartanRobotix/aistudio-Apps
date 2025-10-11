@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Group } from '../types';
 import { generateWallpaper } from '../services/geminiService';
@@ -11,93 +12,93 @@ interface WallpaperGeneratorProps {
 const allSuggestions = {
   skz: {
     memberPrompts: [
-      { name: "Bang Chan", prompt: "A photorealistic portrait of Bang Chan as his avatar Wolf Chan, leading his pack under a full moon." },
-      { name: "Lee Know", prompt: "Anime fan art of Lee Know with his quirky charm, surrounded by his three cats Sooni, Doongi, and Dori." },
-      { name: "Changbin", prompt: "A powerful digital painting of Changbin embodying his 'Dwaekki' (pig-rabbit) persona with a dark, confident aura." },
-      { name: "Hyunjin", prompt: "A dramatic and artistic digital painting of Hyunjin, dancing gracefully like his ferret avatar." },
-      { name: "Han", prompt: "A cute anime scene of Han as a happy Quokka, enjoying a giant slice of cheesecake." },
-      { name: "Felix", prompt: "A photorealistic image of Felix with his sunshine personality, glowing freckles, and baking brownies in a cozy kitchen." },
-      { name: "Seungmin", prompt: "A dandy and sweet portrait of Seungmin, like a loyal puppy, studying in a library with a DAY6 album nearby." },
-      { name: "I.N", prompt: "The charming maknae I.N as a Fennec Fox, smiling brightly in a field of flowers, rendered in a soft anime style." },
+      { name: "Bang Chan", prompt: "Digital painting fanart of Bang Chan in his studio, bathed in the soft glow of monitor screens, looking focused. A wolf-like moon is visible through a window, symbolizing his protective leader nature." },
+      { name: "Lee Know", prompt: "Anime fanart of Lee Know in a dynamic, powerful dance pose, surrounded by ethereal, cat-like spirits. His expression is sharp and captivating, a mix of elegance and playful mischief." },
+      { name: "Changbin", prompt: "High-energy fanart of Changbin on a dark, grunge-inspired stage, rapping with intense passion. Neon pink and black graffiti art covers the background, reflecting his 'I love dark' but energetic duality." },
+      { name: "Hyunjin", prompt: "Elegant fanart painting of Hyunjin as a tragic prince from a historical drama, a single tear on his cheek, surrounded by wilting roses. The style is dramatic and emotional, capturing his passionate artistic nature." },
+      { name: "Han", prompt: "Cute and chaotic anime fanart of Han surrounded by floating musical notes, lyrics, and cheesecake slices. He's making a witty, animated expression, capturing his versatile and energetic spirit." },
+      { name: "Felix", prompt: "Sunshine-filled fanart of Felix with his iconic freckles sparkling like constellations. He's surrounded by warm, glowing light, while deep bass sound waves subtly emanate from him, representing his voice." },
+      { name: "Seungmin", prompt: "Soft, gentle fanart of Seungmin singing into a vintage microphone, with sound waves turning into flowers. He's in a cozy, sunlit room with a baseball and a DAY6 album subtly placed in the background." },
+      { name: "I.N", prompt: "Adorable fanart of I.N with a charming smile, wearing a fennec fox-ear headband as a nod to his animal. He's in a whimsical, colorful setting, looking sweet but with a hint of playful 'maknae on top' mischief." },
     ],
     eraPrompts: [
       { era: "ODDINARY", prompts: [
-          { name: "Maniac Vibe", prompt: "The members as eccentric scientists in a strange laboratory, inspired by the 'Maniac' music video." },
-          { name: "Venom Concept", prompt: "A dark, spider-themed concept with webs and shadows, capturing the feel of 'Venom'." },
-          { name: "Charmer Aesthetic", prompt: "A hypnotic, snake-charmer theme with mystical elements and captivating poses." },
+          { name: "Maniac Lab", prompt: "Fanart scene inspired by the 'Maniac' MV, showing the members as eccentric scientists with mismatched outfits and wild hair, surrounded by bubbling beakers and loose screws in a surreal, slightly tilted laboratory." },
+          { name: "Venom's Web", prompt: "Dark, intricate fanart depicting the members with spider-like motifs in their outfits, caught in a giant, glowing web. High contrast, dramatic shadows, inspired by 'Venom'." },
+          { name: "Charmer's Flute", prompt: "Mystical fanart of the members as captivating snake charmers, with glowing eyes and intricate patterns. A large, stylized serpent is coiled around them, evoking the 'Charmer' aesthetic." },
         ] 
       },
       { era: "MAXIDENT", prompts: [
-          { name: "Case 143 Love", prompt: "A cute, slightly chaotic scene of the members as heart-stealing detectives for 'Case 143'." },
-          { name: "Heart Monsters", prompt: "The members fighting or befriending giant, fluffy heart monsters from the music video." },
-          { name: "Pink & Blue", prompt: "A bright, pop-art style wallpaper using the pink and blue color scheme of the era." },
+          { name: "Case 143 Detectives", prompt: "Cute, chaotic fanart of the members as clumsy but determined 'love detectives' from the 'Case 143' MV, chasing after a giant, fluffy pink heart monster." },
+          { name: "Heart Monster Pop-Art", prompt: "A vibrant, pop-art style fanart piece featuring the pink and blue heart monsters from the MAXIDENT era, with the members' silhouettes inside the hearts." },
+          { name: "Graphic Style", prompt: "A stylish graphic fanart piece using the bold pink, blue, and black color palette of the MAXIDENT album art, with abstract shapes and the members' names integrated." },
         ] 
       },
       { era: "★★★★★ (5-STAR)", prompts: [
-          { name: "S-Class Heroes", prompt: "The members as confident, high-fashion superheroes in a bustling cityscape, like in 'S-Class'." },
-          { name: "Outer Space", prompt: "A cosmic theme with the members floating among stars and planets." },
-          { name: "Super Bowl Party", prompt: "A fun, energetic party scene with a luxurious 'Super Bowl' feast." },
+          { name: "S-Class Superheroes", prompt: "Epic fanart of Stray Kids as high-fashion superheroes, standing triumphantly on a Seoul skyscraper, overlooking the city they protect. 'S-Class' inspired, with unique powers hinted for each member." },
+          { name: "Cosmic Voyage", prompt: "Cosmic fanart inspired by the '5-STAR' visuals, with the members as constellations or celestial beings floating gracefully through a star-filled galaxy." },
+          { name: "Super Bowl Feast", prompt: "Energetic fanart of a luxurious 'Super Bowl' celebration, with the members enjoying a ridiculously lavish feast. Confident, playful, and a bit chaotic." },
         ] 
       },
       { era: "樂-STAR (ROCK-STAR)", prompts: [
-          { name: "LALALALA Rock", prompt: "Stray Kids as a legendary rock band performing on a massive stage with fireworks for 'LALALALA'." },
-          { name: "Conductor Hyunjin", prompt: "Hyunjin as the dramatic orchestra conductor from the 'LALALALA' music video." },
-          { name: "Behind the Scenes", prompt: "A candid, backstage rockstar concept with instruments and stage equipment." },
+          { name: "Rockstar Performance", prompt: "High-octane fanart of Stray Kids as a legendary rock band mid-performance on a massive, electrifying stage. Pyrotechnics, lasers, and a massive cheering crowd, capturing the energy of 'LALALALA'." },
+          { name: "Conductor Hyunjin", prompt: "Dramatic fanart painting focusing on Hyunjin as the passionate orchestra conductor from the 'LALALALA' intro, with explosive energy and musical notes flying around him." },
+          { name: "Backstage Moment", prompt: "Candid-style fanart of the members backstage after a concert, looking exhausted but happy, surrounded by instruments and stage equipment. A quieter, more intimate rockstar moment." },
         ] 
       },
     ]
   },
   txt: {
     memberPrompts: [
-        { name: "Soobin", prompt: "A soft, dreamy painting of Soobin the giant bunny, shyly peeking from behind a giant loaf of bread." },
-        { name: "Yeonjun", prompt: "The legendary trainee Yeonjun as a fashionable fox, striking a dynamic pose in a high-fashion outfit." },
-        { name: "Beomgyu", prompt: "Mischievous Beomgyu as a playful bear, holding an acoustic guitar in a magical forest." },
-        { name: "Taehyun", prompt: "The mature and magical Taehyun, like a wise cat, performing a dazzling card trick under spotlights." },
-        { name: "Huening Kai", prompt: "A cheerful anime illustration of Huening Kai surrounded by his favorite plushies, with a chaotic laugh bubble." },
+      { name: "Soobin", prompt: "Soft, pastel-colored fanart of Soobin's representative animal, a shy giant bunny, peeking over a mountain of bread. Gentle, cozy, and dreamy aesthetic." },
+      { name: "Yeonjun", prompt: "Fashion magazine cover style fanart of Yeonjun's representative animal, a desert fox, dressed in a trendy, avant-garde outfit. Confident '4th Gen It Boy' energy, with bold typography." },
+      { name: "Beomgyu", prompt: "Chaotic and cute fanart of Beomgyu's representative animal, a mischievous bear, playing an electric guitar in a glowing, magical forest. He's the energetic mood-maker of the group." },
+      { name: "Taehyun", prompt: "Cool and composed fanart of Taehyun's representative animal, a clever cat, performing a magic trick with glowing cards. The background is a library, reflecting his mature, intelligent personality." },
+      { name: "Huening Kai", prompt: "Adorable fanart of Huening Kai's representative animal, a penguin, happily buried in a mountain of plushies. His dolphin-like laugh is visualized as musical notes. Innocent, bright, and musical." },
     ],
     eraPrompts: [
         { era: "The Dream Chapter", prompts: [
-            { name: "CROWN Horns", prompt: "A fantasy illustration of the members with glowing horns, discovering their unique powers." },
-            { name: "9 and Three Quarters", prompt: "The members running into a magical train station, ready for an adventure." },
-            { name: "Magic Island", prompt: "A serene scene on a mystical island from 'Magic Island', with floating lights." },
+            { name: "CROWN's Magic", prompt: "Ethereal fanart of the members with glowing horns from 'CROWN', set in a magical, starlit landscape from The Dream Chapter." },
+            { name: "Run Away", prompt: "Whimsical fanart of the members discovering the magic door from '9 and Three Quarters (Run Away)', with an enchanted forest visible through the doorway." },
+            { name: "Magic Island", prompt: "Serene, painterly fanart of the members around a campfire on the mystical 'Magic Island', with a giant, friendly ghost whale in the starry sky above." },
         ]},
         { era: "The Chaos Chapter", prompts: [
-            { name: "0X1=Lovesong Anguish", prompt: "An emotional, grunge-aesthetic scene capturing the raw feeling of '0X1=Lovesong'." },
-            { name: "Anti-Romantic", prompt: "A minimalist, melancholic wallpaper about heartbreak in the 'Anti-Romantic' style." },
-            { name: "Frost Kingdom", prompt: "The members as ice princes in a frozen, mythical kingdom, from the 'Frost' concept." },
+            { name: "0X1=Lovesong", prompt: "Emotional fanart in a pop-punk, grunge aesthetic for '0X1=Lovesong', showing the members looking angsty in a beat-up car under a dramatic, stormy sky." },
+            { name: "Anti-Romantic", prompt: "A minimalist, melancholic fanart piece with a single rose losing its petals in a stark, cold room, capturing the 'Anti-Romantic' vibe." },
+            { name: "Frost Princes", prompt: "Dynamic action fanart of the members as powerful ice princes battling in a frozen, mythical kingdom, from the 'Frost' concept." },
         ]},
         { era: "The Name Chapter", prompts: [
-            { name: "Sugar Rush Ride", prompt: "A dreamy, ethereal scene of the members in Neverland for 'Sugar Rush Ride'." },
-            { name: "Devil by the Window", prompt: "A tempting, dark academia concept inspired by 'Devil by the Window'." },
-            { name: "Chasing That Feeling", prompt: "The members in a retro, synth-wave city, 'Chasing That Feeling'." },
+            { name: "Sugar Rush Ride", prompt: "Dreamy, pastel fanart of the members in a Peter Pan-inspired Neverland for 'Sugar Rush Ride', with sparkling fairy dust and a sweet, tempting atmosphere." },
+            { name: "Temptation", prompt: "Seductive fanart inspired by the 'The Name Chapter: Temptation' concept photos, with the members as alluring fallen angels in a lush, green paradise." },
+            { name: "Chasing That Feeling", prompt: "Retro-futuristic fanart of the members in a neon-lit, 80s-inspired city, capturing the synth-wave aesthetic of 'Chasing That Feeling'." },
         ]},
     ]
   },
   enhypen: {
     memberPrompts: [
-        { name: "Jungwon", prompt: "Leader Jungwon with his iconic dimples, embodying a chic and cute cat in a stylish suit." },
-        { name: "Heeseung", prompt: "The ace Heeseung as a graceful deer in an enchanted forest, looking ethereal." },
-        { name: "Jay", prompt: "Passionate Jay as a soaring eagle, dressed in a high-fashion, rock-inspired outfit." },
-        { name: "Jake", prompt: "The lovable Jake as a happy golden retriever, playing in a sunny field with his dog Layla." },
-        { name: "Sunghoon", prompt: "The 'Ice Prince' Sunghoon as a penguin, figure skating gracefully on a frozen, starlit lake." },
-        { name: "Sunoo", prompt: "Sunshine Sunoo as a desert fox, taking a perfect selfie with a bright, contagious smile." },
-        { name: "Ni-ki", prompt: "Dance prodigy Ni-ki as a powerful puma, captured mid-air in a dynamic dance move." },
+      { name: "Jungwon", prompt: "Fanart of Jungwon's representative animal, a chic but cute black cat, displaying his signature dimples. The cat wears a small, elegant leader's crown." },
+      { name: "Heeseung", prompt: "Majestic fanart of Heeseung's representative animal, a noble deer, with glowing antlers in a moonlit, magical forest. The 'ace' of the group." },
+      { name: "Jay", prompt: "Fierce fanart of Jay's representative animal, an eagle, with a rock-and-roll edge, wearing a tiny leather jacket. Captures his passionate, high-energy 'RAS' personality." },
+      { name: "Jake", prompt: "Heartwarming fanart of Jake's representative animal, a happy golden retriever (like his dog Layla), playing in a sunny field in Australia. Sweet, kind, and loyal vibe." },
+      { name: "Sunghoon", prompt: "Elegant fanart of Sunghoon's representative animal, a penguin, figure skating gracefully on a frozen lake under the stars. The 'Ice Prince' leaving shimmering trails on the ice." },
+      { name: "Sunoo", prompt: "Bright and bubbly fanart of Sunoo's representative animal, a desert fox, taking a perfect selfie. The scene is filled with sunshine, sparkles, and aegyo." },
+      { name: "Ni-ki", prompt: "Dynamic fanart of Ni-ki's representative animal, a sleek black puma, captured mid-leap in a powerful dance move under a single, dramatic spotlight. The 'dance prodigy' maknae." },
     ],
     eraPrompts: [
         { era: "BORDER", prompts: [
-            { name: "Given-Taken Thrones", prompt: "The members as young, elegant vampires sitting on ornate thrones, from 'Given-Taken'." },
-            { name: "Debut Ethereal", prompt: "An ethereal, dreamlike concept celebrating their debut." },
-            { name: "Let Me In", prompt: "A mysterious scene of the members beckoning from behind a grand, slightly open door." },
+            { name: "Given-Taken", prompt: "Gothic fanart of the members as newly-turned, elegant vampires in an old, grand library, with light streaming from a high window, capturing the 'Given-Taken' dilemma." },
+            { name: "Let Me In", prompt: "Mysterious fanart of a single member beckoning the viewer into a fantastical, carnival-like world from 'Let Me In (20 Cube)'." },
+            { name: "Debut Liminality", prompt: "Ethereal fanart depicting the members standing on a surreal, shifting border between light and dark, day and night, symbolizing their debut concept." },
         ]},
         { era: "DIMENSION", prompts: [
-            { name: "Tamed-Dashed Rugby", prompt: "An energetic, youthful scene of the members playing rugby on a bright, sunny day." },
-            { name: "Go Big or Go Home", prompt: "A fun party scene with confetti and vibrant colors for 'Go Big or Go Home'." },
-            { name: "Upper Side Dreamin'", prompt: "A luxurious, high-society concept with the members in fancy attire." },
+            { name: "Tamed-Dashed", prompt: "High-energy, bright fanart of the members in retro rugby uniforms, caught mid-action in a dynamic game on a sunny beach, capturing the 'Tamed-Dashed' youthful freedom." },
+            { name: "Go Big or Go Home", prompt: "Confetti-filled fanart of the members having the time of their lives at a vibrant, chaotic house party, inspired by 'Go Big or Go Home'." },
+            { name: "Dilemma", prompt: "Surrealist fanart inspired by 'Dimension: Dilemma', with members in a strange, MC Escher-like space with floating doors and conflicting visual themes." },
         ]},
         { era: "BLOOD", prompts: [
-            { name: "Bite Me Vampires", prompt: "The members as charming, dark vampires in a gothic castle for 'Bite Me'." },
-            { name: "Sacrifice Fantasy", prompt: "A dark fantasy concept showing the members' powerful and sacrificial bonds." },
-            { name: "Sweet Venom Myth", prompt: "A modern take on ancient myths, with sleek outfits and a 'Sweet Venom' allure." },
+            { name: "Bite Me", prompt: "Darkly romantic fanart of the members as ancient, alluring vampires in a gothic ballroom, with intricate, dark fantasy outfits from the 'Bite Me' era." },
+            { name: "Sweet Venom", prompt: "Modern fantasy fanart of the members as mythological beings with a 'sweet but deadly' allure, in a sleek, neon-lit urban setting. Inspired by 'Sweet Venom'." },
+            { name: "Sacrifice", prompt: "Dramatic fanart depicting the powerful, unbreakable bond between the members, with themes of sacrifice and dark fantasy elements from 'Sacrifice (Eat Me Up)'." },
         ]},
     ]
   }
